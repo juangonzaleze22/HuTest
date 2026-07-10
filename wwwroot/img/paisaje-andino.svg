@@ -1,0 +1,24 @@
+<svg width="1440" height="240" viewBox="0 0 1440 240" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Paisaje andino de Machu Picchu">
+  <!-- Cordillera lejana -->
+  <path d="M0 240V150l90-46 74 34 96-58 82 40 120-70 96 52 110-66 104 58 126-72 100 56 108-58 104 60 120-40v264H0Z"
+        fill="#E7EAED"/>
+  <!-- Cordillera media -->
+  <path d="M0 240v-58l120-64 96 52 84-44 132 74 92-50 118 64 96-54 128 70 104-56 118 62 90-46 146 78v22H0Z"
+        fill="#DADEE2"/>
+  <!-- Terrazas (andenes) sobre la ladera media -->
+  <g stroke="#CBD0D4" stroke-width="2" opacity="0.7" fill="none">
+    <path d="M470 180q120-30 240 0"/>
+    <path d="M486 192q112-26 214 0"/>
+    <path d="M504 204q100-22 190 0"/>
+  </g>
+  <!-- Montaña principal (Huayna Picchu) -->
+  <path d="M812 240l118-150 40 46 62-84 78 100 44-40 96 118 74-70 116 120v-160 240H812Z"
+        fill="#CCD1D6"/>
+  <!-- Ladera frontal con andenes -->
+  <path d="M0 240v-30l150-40 130 40 160-52 150 46 180-54 150 52 170-46 150 48 160-40 90 28v40H0Z"
+        fill="#BFC5CB"/>
+  <g stroke="#AEB5BC" stroke-width="2" opacity="0.65" fill="none">
+    <path d="M120 216q160-34 320 0"/>
+    <path d="M150 226q150-28 300 0"/>
+  </g>
+</svg>

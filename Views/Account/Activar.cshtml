@@ -1,0 +1,27 @@
+@model HuTest.Models.ViewModels.ActivacionViewModel
+@{
+    ViewData["Title"] = "Activación de cuenta";
+    Layout = "_AuthLayout";
+}
+
+<div class="ceplan-auth-stack">
+    <div class="ceplan-card">
+        <div class="ceplan-welcome">
+            @if (Model.EsExito)
+            {
+                <img src="~/img/ilustracion-exito.svg" alt="" width="100" height="100" />
+            }
+            else
+            {
+                <i class="bi bi-exclamation-triangle" style="font-size:3rem;color:var(--ceplan-amarillo)"></i>
+            }
+
+            <h1>@Model.Titulo</h1>
+            <p>@Model.Mensaje</p>
+        </div>
+
+        <a asp-controller="Account" asp-action="Login" class="ceplan-btn ceplan-btn--primary mt-4">
+            Iniciar sesión
+        </a>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+@model HuTest.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+    Layout = "_AuthLayout";
+}
+
+<div class="ceplan-auth-stack">
+    <div class="ceplan-card">
+        <form asp-controller="Account" asp-action="Login" method="post" class="d-flex flex-column gap-4" novalidate>
+            <input type="hidden" asp-for="ReturnUrl" />
+            <input type="hidden" asp-for="TipoDocumento" id="TipoDocumento" />
+
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+            {
+                <div class="ceplan-alert">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>@ViewData.ModelState[string.Empty]!.Errors.First().ErrorMessage</span>
+                </div>
+            }
+
+            <div class="d-flex flex-column gap-3">
+                <!-- Toggle DNI / CE -->
+                <div class="ceplan-toggle" role="group" aria-label="Tipo de documento">
+                    <button type="button" class="ceplan-toggle__btn" data-tipo="DNI">DNI</button>
+                    <button type="button" class="ceplan-toggle__btn" data-tipo="CE">CE</button>
+                </div>
+
+                <!-- Usuario -->
+                <div class="ceplan-field">
+                    <label class="ceplan-field__label" asp-for="Documento">Usuario</label>
+                    <div class="ceplan-input-wrap">
+                        <i class="bi bi-person"></i>
+                        <input asp-for="Documento" placeholder="Ingresar usuario" autocomplete="username" />
+                    </div>
+                    <span asp-validation-for="Documento" class="field-validation-error"></span>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="ceplan-field">
+                    <label class="ceplan-field__label" asp-for="Password">Contraseña</label>
+                    <div class="ceplan-input-wrap">
+                        <i class="bi bi-lock"></i>
+                        <input asp-for="Password" type="password" id="Password" placeholder="Ingresar contraseña" autocomplete="current-password" />
+                        <button type="button" class="ceplan-toggle-pass" id="togglePass" aria-label="Mostrar contraseña">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="field-validation-error"></span>
+                    <a href="#" class="ceplan-link mt-1">¿Olvidó su contraseña?</a>
+                </div>
+            </div>
+
+            <button type="submit" class="ceplan-btn ceplan-btn--primary">Ingresar</button>
+        </form>
+    </div>
+
+    <!-- CTA de ayuda / soporte -->
+    <div class="ceplan-cta">
+        <img src="~/img/ilustracion-soporte.svg" alt="" width="48" height="48" />
+        <span class="ceplan-cta__text">
+            ¿Necesita ayuda?, <a href="#">contacte con el área de soporte</a>.
+        </span>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const hidden = document.getElementById('TipoDocumento');
+            const botones = document.querySelectorAll('.ceplan-toggle__btn');
+            function marcar(tipo) {
+                hidden.value = tipo;
+                botones.forEach(b => b.classList.toggle('active', b.dataset.tipo === tipo));
+            }
+            botones.forEach(b => b.addEventListener('click', () => marcar(b.dataset.tipo)));
+            marcar(hidden.value || 'DNI');
+
+            // Mostrar / ocultar contraseña
+            const toggle = document.getElementById('togglePass');
+            const pass = document.getElementById('Password');
+            toggle.addEventListener('click', () => {
+                const ver = pass.type === 'password';
+                pass.type = ver ? 'text' : 'password';
+                toggle.querySelector('i').className = ver ? 'bi bi-eye-slash' : 'bi bi-eye';
+            });
+        })();
+    </script>
+}

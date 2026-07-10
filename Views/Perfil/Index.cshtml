@@ -1,0 +1,93 @@
+@model HuTest.Models.ViewModels.PerfilViewModel
+@{
+    ViewData["Title"] = "Perfil de usuario";
+}
+
+@functions {
+    // Campo de solo lectura de la grilla. `opcional` añade el rótulo gris "(Opcional)";
+    // `editable` muestra el lápiz de edición azul a la derecha.
+    void Campo(string label, string? valor, bool opcional = false, bool editable = false)
+    {
+        <div class="ceplan-perfil__field">
+            <span class="ceplan-perfil__field-label">
+                @label
+                @if (opcional)
+                {
+                    <span class="ceplan-perfil__field-optional">(Opcional)</span>
+                }
+            </span>
+            <div class="ceplan-perfil__value @(editable ? "ceplan-perfil__value--editable" : "")">
+                <span>@valor</span>
+                @if (editable)
+                {
+                    <button type="button" class="ceplan-perfil__edit" aria-label="Editar @label">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                }
+            </div>
+        </div>
+    }
+}
+
+<nav class="ceplan-breadcrumb" aria-label="Ruta">Perfil de usuario</nav>
+<h1 class="ceplan-page-title">Perfil de usuario</h1>
+
+<section class="ceplan-card ceplan-perfil">
+    <header class="ceplan-perfil__head">
+        <span class="ceplan-perfil__avatar">@Model.Iniciales</span>
+        <div class="ceplan-perfil__ident">
+            <div class="ceplan-perfil__name-row">
+                <h2 class="ceplan-perfil__name">@Model.NombreMostrado</h2>
+                <span class="ceplan-badge @(Model.EstaActivo ? "ceplan-badge--ok" : "ceplan-badge--muted")">@Model.Estado</span>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.Cargo))
+            {
+                <p class="ceplan-perfil__cargo">@Model.Cargo</p>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Entidad))
+            {
+                <p class="ceplan-perfil__entidad">@Model.Entidad</p>
+            }
+        </div>
+    </header>
+
+    <nav class="ceplan-tabs" role="tablist">
+        <button type="button" class="ceplan-tabs__tab active" role="tab" aria-selected="true">Información básica</button>
+        <button type="button" class="ceplan-tabs__tab" role="tab" aria-selected="false">Responsabilidades</button>
+        <button type="button" class="ceplan-tabs__tab" role="tab" aria-selected="false">Historial de responsabilidades</button>
+    </nav>
+
+    <div class="ceplan-perfil__grid" role="tabpanel">
+        @{ Campo("Nombres", Model.Nombres); }
+        @{ Campo("Primer Apellido", Model.PrimerApellido); }
+        @{ Campo("Segundo Apellido", Model.SegundoApellido); }
+
+        @{ Campo("Tipo de Documento de Identidad", Model.TipoDocumento); }
+        @{ Campo("N° de Documento de Identidad", Model.NumeroDocumento); }
+        @{ Campo("Fecha de nacimiento", Model.FechaNacimiento); }
+
+        @{ Campo("Nacionalidad", Model.Nacionalidad); }
+        @{ Campo("Sexo", Model.Sexo); }
+        @{ Campo("Correo electrónico principal", Model.CorreoPrincipal, editable: true); }
+
+        @{ Campo("Correo electrónico secundario", Model.CorreoSecundario, opcional: true); }
+        @{ Campo("Teléfono Móvil", Model.TelefonoMovil, editable: true); }
+
+        <div class="ceplan-perfil__field">
+            <span class="ceplan-perfil__field-label">
+                Teléfono secundario <span class="ceplan-perfil__field-optional">(Opcional)</span>
+            </span>
+            <div class="ceplan-perfil__phone">
+                <select class="ceplan-perfil__select" aria-label="Tipo de teléfono secundario">
+                    <option value="">Tipo</option>
+                    <option value="Fijo" selected="@(Model.TelefonoSecundarioTipo == "Fijo")">Fijo</option>
+                    <option value="Móvil" selected="@(Model.TelefonoSecundarioTipo == "Móvil")">Móvil</option>
+                </select>
+                <input type="text" class="ceplan-perfil__input" value="@Model.TelefonoSecundario" aria-label="Número de teléfono secundario" />
+            </div>
+        </div>
+
+        @{ Campo("Tipo de Contratación", Model.TipoContratacion); }
+        @{ Campo("Fecha de contratación", Model.FechaContratacion); }
+    </div>
+</section>

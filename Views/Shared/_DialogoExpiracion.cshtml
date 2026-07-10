@@ -1,0 +1,23 @@
+@* Diálogo de aviso de expiración de sesión (HU-5, RN-10). Controlado por session-timeout.js *@
+<div id="dialogoExpiracion" class="ceplan-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="dlgExpTitulo">
+    <div class="ceplan-modal ceplan-modal--aviso">
+        <div class="ceplan-modal__body">
+            <span class="ceplan-modal__icon" aria-hidden="true">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+            </span>
+            <div class="ceplan-modal__content">
+                <h2 id="dlgExpTitulo" class="ceplan-modal__title">Su sesión está a punto de expirar</h2>
+                <p class="ceplan-modal__text">
+                    Por seguridad, su sesión expirará en
+                    <span class="ceplan-modal__count"><span id="dlgExpCuenta">49</span> segundos</span>.
+                    Para continuar, seleccione &quot;Extender sesión&quot;.
+                </p>
+            </div>
+        </div>
+        <div class="ceplan-modal__footer">
+            <button type="button" id="btnExtenderSesion" class="ceplan-btn ceplan-btn--warning ceplan-btn--auto">
+                Extender sesión
+            </button>
+        </div>
+    </div>
+</div>

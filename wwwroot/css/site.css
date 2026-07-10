@@ -1,0 +1,1040 @@
+/* ============================================================
+   HuTest — Sistema CEPLAN
+   Design tokens derivados del Figma "✅ HU TEST"
+   ============================================================ */
+
+:root {
+    /* Colores */
+    --ceplan-rojo: #9A1413;          /* header */
+    --ceplan-azul: #0156AC;          /* primario */
+    --ceplan-azul-disabled: #92B6DB; /* botón deshabilitado */
+    --ceplan-azul-link: #006DDB;     /* enlaces */
+    --ceplan-rojo-error: #D20000;
+    --ceplan-rojo-error-2: #AF0505;
+    --ceplan-amarillo: #FFB10F;
+    --ceplan-bg: #F8F8F8;
+    --ceplan-card: #FEFEFE;
+    --ceplan-blanco: #FFFFFF;
+    --ceplan-borde: #C9CDD0;
+    --ceplan-gris-txt: #515D68;
+    --ceplan-gris-txt-2: #747D86;
+    --ceplan-texto: #181A1C;
+
+    /* Tipografía (Figma sugiere Qanelas + Inter; Qanelas es propietaria,
+       se usa Poppins como sustituto geométrico ya presente en el Figma) */
+    --font-ui: "Qanelas", "Poppins", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+
+    /* Sombras del Figma */
+    --shadow-cards: 0 4px 4px rgba(38, 38, 38, 0.04);
+    --shadow-sidebar: 0 10px 20px rgba(38, 38, 38, 0.15);
+    --shadow-modal: 0 2px 12px rgba(38, 38, 38, 0.24);
+    --shadow-toast: 0 3px 12px rgba(38, 38, 38, 0.3);
+
+    /* Medidas */
+    --radius-card: 8px;
+    --radius-control: 6px;
+    --header-h: 72px;
+    --sidebar-w: 248px;
+}
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--ceplan-texto);
+    background: var(--ceplan-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===================== Header ===================== */
+.ceplan-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: var(--ceplan-rojo);
+    color: #fff;
+    height: var(--header-h);
+    flex-shrink: 0;
+}
+
+.ceplan-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ceplan-header__logo {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+/* Hamburguesa del header: solo visible en mobile (abre el drawer).
+   Selector compuesto para ganar en especificidad a .ceplan-header__icon-btn. */
+.ceplan-header__icon-btn.ceplan-header__menu { display: none; }
+
+.ceplan-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ceplan-header__icon-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.ceplan-header__icon-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.ceplan-header__profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 8px;
+}
+
+.ceplan-header__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ceplan-rojo);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-ui);
+    font-weight: 600;
+}
+
+.ceplan-header__profile-name {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: .875rem;
+    line-height: 1.1;
+}
+
+.ceplan-header__profile-role {
+    font-size: .75rem;
+    opacity: .85;
+}
+
+/* ===================== Shell (sidebar + [header + content]) =====================
+   El sidebar ocupa toda la altura (llega al tope) y el header rojo queda a su
+   derecha, dentro de la columna principal. */
+.ceplan-shell {
+    display: flex;
+    flex: 1 0 auto;
+    min-height: 100vh;
+}
+
+.ceplan-sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--ceplan-card);
+    border-right: 1px solid var(--ceplan-borde);
+    box-shadow: 2px 0 8px rgba(38, 38, 38, 0.06);
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 5;
+    transition: width .2s ease;
+}
+
+.ceplan-sidebar__group-title {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--ceplan-gris-txt-2);
+    padding: 12px 12px 4px;
+}
+
+.ceplan-sidebar__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-control);
+    color: var(--ceplan-gris-txt);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .9rem;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease;
+}
+
+.ceplan-sidebar__link:hover {
+    background: var(--ceplan-bg);
+    color: var(--ceplan-azul);
+}
+
+.ceplan-sidebar__link.active {
+    background: #FAE6E6;
+    color: var(--ceplan-rojo-error);
+}
+
+.ceplan-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.ceplan-content {
+    flex: 1;
+    padding: 32px;
+}
+
+/* ===================== Footer ===================== */
+.ceplan-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 8px 39px;
+    background: var(--ceplan-blanco);
+    border-top: 1px solid var(--ceplan-borde);
+}
+
+/* ===================== Layout público (login / activación) ===================== */
+.ceplan-public {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 48px 16px 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ceplan-auth-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 376px;
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Paisaje andino decorativo al pie del layout público */
+.ceplan-public__paisaje {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    background: url("../img/Illustration - login.png") center bottom / cover no-repeat;
+    pointer-events: none;
+    z-index: 0;
+    background-size: contain;
+}
+
+/* Firma institucional Gobierno del Perú */
+.ceplan-gobpe {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    height: 40px;
+}
+
+.ceplan-gobpe__escudo {
+    align-self: center;
+    height: 40px;
+    width: auto;
+    margin-right: 4px;
+}
+
+.ceplan-gobpe__peru {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    background: var(--ceplan-rojo-error);
+    border-radius: 3px;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .04em;
+    color: #fff;
+}
+
+.ceplan-gobpe__org {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    background: var(--ceplan-bg);
+    border-radius: 3px;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .66rem;
+    line-height: 1.2;
+    color: var(--ceplan-gris-txt);
+}
+
+@media (max-width: 575.98px) {
+    .ceplan-footer { padding: 8px 16px; }
+    .ceplan-gobpe { gap: 4px; }
+    .ceplan-gobpe__org { font-size: .58rem; padding: 0 8px; }
+    .ceplan-gobpe__peru { padding: 0 10px; font-size: .85rem; }
+}
+
+/* Card blanca */
+.ceplan-card {
+    background: var(--ceplan-card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-cards);
+    padding: 28px 40px;
+}
+
+/* ===================== Toggle DNI/CE ===================== */
+.ceplan-toggle {
+    display: flex;
+    width: 100%;
+}
+
+.ceplan-toggle__btn {
+    flex: 1;
+    padding: 8px 16px;
+    border: 1px solid var(--ceplan-gris-txt-2);
+    background: #fff;
+    color: var(--ceplan-gris-txt);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.ceplan-toggle__btn:first-child {
+    border-radius: var(--radius-control) 0 0 var(--radius-control);
+    border-right: 0;
+}
+
+.ceplan-toggle__btn:last-child {
+    border-radius: 0 var(--radius-control) var(--radius-control) 0;
+}
+
+.ceplan-toggle__btn.active {
+    background: var(--ceplan-gris-txt-2);
+    color: #fff;
+    border-color: var(--ceplan-gris-txt-2);
+}
+
+/* ===================== Inputs ===================== */
+.ceplan-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ceplan-field__label {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .8rem;
+    color: var(--ceplan-texto);
+}
+
+.ceplan-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--ceplan-borde);
+    border-radius: var(--radius-control);
+    padding: 0 12px;
+    background: #fff;
+    height: 44px;
+}
+
+.ceplan-input-wrap:focus-within {
+    border-color: var(--ceplan-azul);
+    box-shadow: 0 0 0 2px rgba(1, 86, 172, 0.15);
+}
+
+.ceplan-input-wrap.is-invalid,
+.ceplan-input-wrap:has(.input-validation-error) {
+    border-color: var(--ceplan-rojo-error);
+}
+
+.ceplan-input-wrap i {
+    color: var(--ceplan-gris-txt-2);
+}
+
+/* Icono en rojo cuando el campo tiene un error de validación */
+.ceplan-input-wrap.is-invalid i,
+.ceplan-input-wrap:has(.input-validation-error) i {
+    color: var(--ceplan-rojo-error);
+}
+
+.ceplan-input-wrap input,
+.ceplan-input-wrap select {
+    border: 0;
+    outline: 0;
+    flex: 1;
+    font-family: var(--font-body);
+    font-size: .9rem;
+    background: transparent;
+}
+
+/* Sección de datos opcionales del registro (desplegable) */
+.ceplan-optional > summary {
+    cursor: pointer;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .85rem;
+    color: var(--ceplan-azul);
+    list-style: none;
+    padding: 4px 0;
+}
+
+.ceplan-optional > summary::-webkit-details-marker { display: none; }
+
+.ceplan-optional > summary::before {
+    content: "\002B"; /* + */
+    display: inline-block;
+    width: 1rem;
+    font-weight: 700;
+}
+
+.ceplan-optional[open] > summary::before { content: "\2212"; /* − */ }
+
+.ceplan-toggle-pass {
+    border: 0;
+    background: transparent;
+    color: var(--ceplan-gris-txt-2);
+    cursor: pointer;
+    padding: 0;
+}
+
+.ceplan-link {
+    color: var(--ceplan-azul);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .75rem;
+    text-decoration: none;
+}
+
+.ceplan-link:hover { text-decoration: underline; }
+
+/* ===================== Botones ===================== */
+.ceplan-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 44px;
+    border: 0;
+    border-radius: var(--radius-control);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: .0075em;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.ceplan-btn--primary {
+    background: var(--ceplan-azul);
+    color: #fff;
+}
+
+.ceplan-btn--primary:hover { background: #01468c; }
+
+.ceplan-btn--primary:disabled,
+.ceplan-btn--primary.disabled {
+    background: var(--ceplan-azul-disabled);
+    cursor: not-allowed;
+}
+
+.ceplan-btn--secondary {
+    background: #fff;
+    color: var(--ceplan-azul);
+    border: 1px solid var(--ceplan-azul);
+}
+
+.ceplan-btn--warning {
+    background: var(--ceplan-amarillo);
+    color: #fff;
+}
+
+.ceplan-btn--warning:hover { background: #E39A17; }
+
+.ceplan-btn--auto { width: auto; padding: 0 20px; }
+
+/* ===================== Card de ayuda (CTA soporte) ===================== */
+.ceplan-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    border-radius: var(--radius-card);
+    padding: 24px 40px;
+    box-shadow: var(--shadow-cards);
+}
+
+.ceplan-cta__text {
+    color: var(--ceplan-gris-txt);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .875rem;
+}
+
+.ceplan-cta__text a { color: var(--ceplan-azul-link); text-decoration: none; }
+
+/* ===================== Bloque bienvenida / estados ===================== */
+.ceplan-welcome {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+/* Card de estado (p. ej. cuenta bloqueada) centrada verticalmente en el layout público */
+.ceplan-auth-stack--estado {
+    margin-block: auto;
+}
+
+/* Ilustración dentro de un badge circular de fondo azul suave */
+.ceplan-illustration-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background: #EAF1FB;
+}
+
+.ceplan-illustration-badge img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+}
+
+.ceplan-welcome h1 {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--ceplan-texto);
+    margin: 0;
+}
+
+.ceplan-welcome p {
+    font-family: var(--font-body);
+    font-size: .875rem;
+    color: #000;
+    margin: 0;
+}
+
+/* ===================== Alertas de validación ===================== */
+.ceplan-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #FDECEC;
+    border: 1px solid var(--ceplan-rojo-error);
+    color: var(--ceplan-rojo-error-2);
+    border-radius: var(--radius-control);
+    padding: 10px 12px;
+    font-size: .85rem;
+}
+
+.field-validation-error { color: var(--ceplan-rojo-error); font-size: .78rem; }
+
+/* ===================== Toast ===================== */
+.ceplan-toast-zone {
+    position: fixed;
+    bottom: 88px;
+    right: 24px;
+    z-index: 1080;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ceplan-toast {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #DFEDFF;
+    border-left: 6px solid var(--ceplan-azul);
+    box-shadow: var(--shadow-toast);
+    border-radius: var(--radius-control);
+    padding: 16px 20px;
+    max-width: 420px;
+}
+
+/* En móvil el toast se centra horizontalmente y ocupa el ancho disponible */
+@media (max-width: 575.98px) {
+    .ceplan-toast-zone {
+        left: 16px;
+        right: 16px;
+        align-items: center;
+    }
+
+    .ceplan-toast { max-width: 100%; width: 100%; }
+}
+
+.ceplan-toast i { color: var(--ceplan-azul); font-size: 1.2rem; }
+
+.ceplan-toast__title {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: .9rem;
+    color: var(--ceplan-texto);
+}
+
+.ceplan-toast__close {
+    border: 0;
+    background: transparent;
+    color: var(--ceplan-gris-txt-2);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* ===================== Diálogo de expiración ===================== */
+.ceplan-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1090;
+}
+
+.ceplan-modal-backdrop.show { display: flex; }
+
+.ceplan-modal {
+    background: var(--ceplan-card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-modal);
+    width: 460px;
+    max-width: calc(100% - 32px);
+    overflow: hidden;
+}
+
+.ceplan-modal__body { padding: 24px 24px 20px; }
+
+/* Variante "aviso": banner ancho, icono de advertencia a la izquierda + texto a la derecha */
+.ceplan-modal--aviso { width: 720px; max-width: calc(100% - 24px); }
+
+.ceplan-modal--aviso .ceplan-modal__body {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.ceplan-modal__icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ceplan-amarillo);
+    color: #fff;
+    font-size: 1.35rem;
+}
+
+.ceplan-modal__title {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--ceplan-texto);
+    margin: 0 0 8px;
+}
+
+.ceplan-modal__text {
+    font-family: var(--font-body);
+    font-size: .9rem;
+    color: var(--ceplan-gris-txt);
+    margin: 0;
+}
+
+.ceplan-modal__count { font-weight: 700; color: var(--ceplan-azul); }
+
+.ceplan-modal--aviso .ceplan-modal__count { color: var(--ceplan-amarillo); }
+
+.ceplan-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    background: var(--ceplan-bg);
+}
+
+.ceplan-modal__footer .ceplan-btn { width: auto; padding: 0 20px; }
+
+/* Modal de aviso en móvil: paddings más compactos y botón a ancho completo */
+@media (max-width: 575.98px) {
+    .ceplan-modal--aviso .ceplan-modal__body {
+        padding: 20px 16px 16px;
+        gap: 12px;
+    }
+
+    .ceplan-modal__icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+    }
+
+    .ceplan-modal__title { font-size: 1rem; }
+
+    .ceplan-modal__footer { padding: 12px 16px; }
+
+    .ceplan-modal__footer .ceplan-btn { width: 100%; }
+}
+
+/* ===================== Sidebar: botón toggle y modo colapsado ===================== */
+.ceplan-sidebar__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 0 4px 4px;
+    border: 0;
+    background: transparent;
+    color: var(--ceplan-gris-txt);
+    border-radius: var(--radius-control);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.ceplan-sidebar__toggle:hover { background: var(--ceplan-bg); }
+
+.ceplan-sidebar--collapsed {
+    width: 72px;
+    align-items: center;
+    padding: 20px 8px;
+}
+
+.ceplan-sidebar--collapsed .ceplan-sidebar__group-title,
+.ceplan-sidebar--collapsed .ceplan-sidebar__label {
+    display: none;
+}
+
+.ceplan-sidebar--collapsed .ceplan-sidebar__toggle { margin: 0 0 8px; }
+
+.ceplan-sidebar--collapsed .ceplan-sidebar__link {
+    justify-content: center;
+    gap: 0;
+    padding: 10px;
+    width: 44px;
+    font-size: 1.15rem;
+}
+
+/* El ítem activo mantiene el mismo acento rojo en modo icono y expandido,
+   para que no cambie de color al colapsar/expandir el sidebar. */
+.ceplan-sidebar--collapsed .ceplan-sidebar__link.active {
+    background: #FAE6E6;
+    color: var(--ceplan-rojo-error);
+}
+
+/* ===================== Breadcrumb + título de página ===================== */
+.ceplan-breadcrumb {
+    font-size: .78rem;
+    color: var(--ceplan-gris-txt-2);
+    margin-bottom: 4px;
+}
+
+.ceplan-page-title {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.9rem;
+    color: var(--ceplan-texto);
+    margin: 0 0 20px;
+}
+
+/* ===================== Detalle de perfil ===================== */
+.ceplan-perfil { padding: 28px 32px 36px; }
+
+.ceplan-perfil__head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.ceplan-perfil__avatar {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #7FA9DA, #5C86BC);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.ceplan-perfil__name-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ceplan-perfil__name {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.35rem;
+    color: var(--ceplan-texto);
+    margin: 0;
+}
+
+.ceplan-perfil__cargo {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    color: var(--ceplan-texto);
+    margin: 6px 0 0;
+}
+
+.ceplan-perfil__entidad {
+    color: var(--ceplan-gris-txt-2);
+    font-size: .85rem;
+    margin: 2px 0 0;
+}
+
+.ceplan-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 12px;
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .78rem;
+}
+
+.ceplan-badge--ok { background: #E6F4EC; color: #1B8A5A; }
+.ceplan-badge--muted { background: var(--ceplan-bg); color: var(--ceplan-gris-txt-2); }
+
+/* Pestañas */
+.ceplan-tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--ceplan-borde);
+    margin-bottom: 28px;
+}
+
+.ceplan-tabs__tab {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    padding: 14px 8px;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .95rem;
+    color: var(--ceplan-gris-txt-2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+}
+
+.ceplan-tabs__tab:hover { color: var(--ceplan-azul); }
+
+.ceplan-tabs__tab.active {
+    color: var(--ceplan-azul);
+    border-bottom-color: var(--ceplan-azul);
+}
+
+/* Grilla de campos (3 columnas) */
+.ceplan-perfil__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 28px;
+}
+
+.ceplan-perfil__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.ceplan-perfil__field-label {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: .82rem;
+    color: var(--ceplan-texto);
+}
+
+.ceplan-perfil__field-optional {
+    color: var(--ceplan-gris-txt-2);
+    font-weight: 400;
+    font-style: italic;
+}
+
+.ceplan-perfil__value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 14px;
+    background: #F2F3F5;
+    border-radius: var(--radius-control);
+    color: var(--ceplan-texto);
+    font-size: .92rem;
+}
+
+.ceplan-perfil__value > span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ceplan-perfil__edit {
+    border: 0;
+    background: transparent;
+    color: var(--ceplan-azul);
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+}
+
+/* Teléfono secundario: dropdown "Tipo" + input editable */
+.ceplan-perfil__phone { display: flex; gap: 8px; }
+
+.ceplan-perfil__select {
+    width: 84px;
+    height: 44px;
+    border: 1px solid var(--ceplan-borde);
+    border-radius: var(--radius-control);
+    background: #fff;
+    color: var(--ceplan-gris-txt);
+    padding: 0 8px;
+    font-size: .88rem;
+}
+
+.ceplan-perfil__input {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    border: 1px solid var(--ceplan-borde);
+    border-radius: var(--radius-control);
+    padding: 0 14px;
+    font-family: var(--font-body);
+    font-size: .92rem;
+}
+
+.ceplan-perfil__input:focus,
+.ceplan-perfil__select:focus {
+    outline: 0;
+    border-color: var(--ceplan-azul);
+    box-shadow: 0 0 0 2px rgba(1, 86, 172, 0.15);
+}
+
+@media (max-width: 992px) {
+    .ceplan-perfil__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Backdrop del drawer (solo activo en mobile cuando el sidebar está abierto) */
+.ceplan-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1095;
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 768px) {
+    /* El sidebar deja de ocupar columna y pasa a ser un drawer que entra
+       de izquierda a derecha (modal), por encima del contenido. Así el header
+       siempre queda primero y a lo ancho. */
+    .ceplan-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 80%;
+        max-width: 320px;
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        z-index: 1100;
+        overflow-y: auto;
+    }
+
+    .ceplan-sidebar.is-open { transform: translateX(0); }
+
+    .ceplan-sidebar-backdrop.show { display: block; }
+
+    /* Dentro del drawer siempre se ve expandido (con etiquetas), aunque el
+       servidor lo haya marcado colapsado para el modo icono de escritorio. */
+    .ceplan-sidebar--collapsed {
+        width: 80%;
+        max-width: 320px;
+        align-items: stretch;
+        padding: 20px 12px;
+    }
+
+    .ceplan-sidebar--collapsed .ceplan-sidebar__group-title,
+    .ceplan-sidebar--collapsed .ceplan-sidebar__label { display: inline; }
+
+    .ceplan-sidebar--collapsed .ceplan-sidebar__link {
+        justify-content: flex-start;
+        gap: 12px;
+        width: auto;
+        padding: 10px 12px;
+        font-size: .9rem;
+    }
+
+    .ceplan-sidebar--collapsed .ceplan-sidebar__link.active {
+        background: #FAE6E6;
+        color: var(--ceplan-rojo-error);
+    }
+
+    .ceplan-header__icon-btn.ceplan-header__menu { display: inline-flex; }
+
+    .ceplan-header__profile-name,
+    .ceplan-header__profile-role { display: none; }
+    .ceplan-content { padding: 20px; }
+    .ceplan-perfil { padding: 20px 16px 24px; }
+    .ceplan-perfil__grid { grid-template-columns: 1fr; }
+    .ceplan-page-title { font-size: 1.5rem; }
+
+    /* Tabs como slider horizontal: no se apilan; la fila se desplaza en X
+       simulando un carrusel y cada pestaña conserva su ancho natural. */
+    .ceplan-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .ceplan-tabs__tab {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+}

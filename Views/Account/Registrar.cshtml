@@ -1,0 +1,268 @@
+@model HuTest.Models.ViewModels.RegistroViewModel
+@{
+    ViewData["Title"] = "Crear cuenta";
+    Layout = "_AuthLayout";
+}
+
+<div class="ceplan-auth-stack">
+    <div class="ceplan-card">
+        @if (Model.Exito)
+        {
+            <div class="ceplan-welcome">
+                <img src="~/img/ilustracion-exito.svg" alt="" width="100" height="100" />
+                <h1>Cuenta creada</h1>
+                <p>
+                    Se envió un correo de activación a la cuenta registrada.
+                    El usuario debe abrir el enlace para activar su cuenta antes de iniciar sesión.
+                </p>
+            </div>
+
+            @* Comodidad de demostración: el SMTP está en modo simulado, así que el
+               enlace que "viajaría por correo" se muestra aquí para poder abrirlo. *@
+            @if (!string.IsNullOrEmpty(Model.EnlaceActivacion))
+            {
+                <div class="ceplan-field mt-4">
+                    <label class="ceplan-field__label">Enlace de activación (demo)</label>
+                    <div class="ceplan-input-wrap">
+                        <i class="bi bi-link-45deg"></i>
+                        <input type="text" value="@Model.EnlaceActivacion" readonly onclick="this.select()" />
+                    </div>
+                </div>
+                <a href="@Model.EnlaceActivacion" class="ceplan-btn ceplan-btn--primary mt-3">
+                    Abrir enlace de activación
+                </a>
+            }
+
+            <a asp-controller="Account" asp-action="Registrar" class="ceplan-link mt-3 text-center">
+                Crear otra cuenta
+            </a>
+        }
+        else
+        {
+            <form asp-controller="Account" asp-action="Registrar" method="post" class="d-flex flex-column gap-4" novalidate>
+                <input type="hidden" asp-for="TipoDocumento" id="TipoDocumento" />
+
+                <div class="ceplan-welcome">
+                    <h1>Crear cuenta</h1>
+                    <p>Complete los datos del nuevo usuario.</p>
+                </div>
+
+                @if (!ViewData.ModelState.IsValid && ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+                {
+                    <div class="ceplan-alert">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        <span>@ViewData.ModelState[string.Empty]!.Errors.First().ErrorMessage</span>
+                    </div>
+                }
+
+                <div class="d-flex flex-column gap-3">
+                    <!-- Toggle DNI / CE -->
+                    <div class="ceplan-toggle" role="group" aria-label="Tipo de documento">
+                        <button type="button" class="ceplan-toggle__btn" data-tipo="DNI">DNI</button>
+                        <button type="button" class="ceplan-toggle__btn" data-tipo="CE">CE</button>
+                    </div>
+
+                    <!-- Documento -->
+                    <div class="ceplan-field">
+                        <label class="ceplan-field__label" asp-for="Documento"></label>
+                        <div class="ceplan-input-wrap">
+                            <i class="bi bi-card-text"></i>
+                            <input asp-for="Documento" placeholder="Ingresar número de documento" autocomplete="off" />
+                        </div>
+                        <span asp-validation-for="Documento" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Nombre completo -->
+                    <div class="ceplan-field">
+                        <label class="ceplan-field__label" asp-for="NombreCompleto"></label>
+                        <div class="ceplan-input-wrap">
+                            <i class="bi bi-person"></i>
+                            <input asp-for="NombreCompleto" placeholder="Apellidos, Nombres" autocomplete="name" />
+                        </div>
+                        <span asp-validation-for="NombreCompleto" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Correo -->
+                    <div class="ceplan-field">
+                        <label class="ceplan-field__label" asp-for="Email"></label>
+                        <div class="ceplan-input-wrap">
+                            <i class="bi bi-envelope"></i>
+                            <input asp-for="Email" type="email" placeholder="usuario@ceplan.gob.pe" autocomplete="email" />
+                        </div>
+                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="ceplan-field">
+                        <label class="ceplan-field__label" asp-for="Password"></label>
+                        <div class="ceplan-input-wrap">
+                            <i class="bi bi-lock"></i>
+                            <input asp-for="Password" type="password" id="Password" placeholder="Ingresar contraseña" autocomplete="new-password" />
+                            <button type="button" class="ceplan-toggle-pass" data-target="Password" aria-label="Mostrar contraseña">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Confirmar contraseña -->
+                    <div class="ceplan-field">
+                        <label class="ceplan-field__label" asp-for="ConfirmarPassword"></label>
+                        <div class="ceplan-input-wrap">
+                            <i class="bi bi-lock"></i>
+                            <input asp-for="ConfirmarPassword" type="password" id="ConfirmarPassword" placeholder="Repetir contraseña" autocomplete="new-password" />
+                            <button type="button" class="ceplan-toggle-pass" data-target="ConfirmarPassword" aria-label="Mostrar contraseña">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmarPassword" class="field-validation-error"></span>
+                    </div>
+                </div>
+
+                <!-- Datos de perfil (opcionales): si se dejan en blanco, el perfil los muestra vacíos. -->
+                <details class="ceplan-optional">
+                    <summary>Datos de perfil (opcional)</summary>
+                    <div class="d-flex flex-column gap-3 mt-3">
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="Cargo"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-briefcase"></i>
+                                <input asp-for="Cargo" placeholder="Ej. Administrador de Recursos" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="Cargo" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="Entidad"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-building"></i>
+                                <input asp-for="Entidad" placeholder="Ej. 011 Ministerio de Salud" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="Entidad" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="FechaNacimiento"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-calendar"></i>
+                                <input asp-for="FechaNacimiento" type="date" />
+                            </div>
+                            <span asp-validation-for="FechaNacimiento" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="Nacionalidad"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-globe"></i>
+                                <input asp-for="Nacionalidad" placeholder="Ej. Peruana" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="Nacionalidad" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="Sexo"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-person"></i>
+                                <select asp-for="Sexo">
+                                    <option value="">Seleccionar</option>
+                                    <option value="Femenino">Femenino</option>
+                                    <option value="Masculino">Masculino</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="Sexo" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="CorreoSecundario"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-envelope"></i>
+                                <input asp-for="CorreoSecundario" type="email" placeholder="correo alterno (opcional)" autocomplete="email" />
+                            </div>
+                            <span asp-validation-for="CorreoSecundario" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="TelefonoMovil"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-phone"></i>
+                                <input asp-for="TelefonoMovil" placeholder="+51 999 999 999" autocomplete="tel" />
+                            </div>
+                            <span asp-validation-for="TelefonoMovil" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="TelefonoSecundario"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-telephone"></i>
+                                <input asp-for="TelefonoSecundario" placeholder="Teléfono alterno (opcional)" autocomplete="off" />
+                            </div>
+                            <div class="ceplan-input-wrap mt-2">
+                                <i class="bi bi-tag"></i>
+                                <select asp-for="TelefonoSecundarioTipo">
+                                    <option value="">Tipo</option>
+                                    <option value="Fijo">Fijo</option>
+                                    <option value="Móvil">Móvil</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="TelefonoSecundario" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="TipoContratacion"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <select asp-for="TipoContratacion">
+                                    <option value="">Seleccionar</option>
+                                    <option value="CAS">CAS</option>
+                                    <option value="Nombrado">Nombrado</option>
+                                    <option value="Locación de servicios">Locación de servicios</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="TipoContratacion" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="ceplan-field">
+                            <label class="ceplan-field__label" asp-for="FechaContratacion"></label>
+                            <div class="ceplan-input-wrap">
+                                <i class="bi bi-calendar-check"></i>
+                                <input asp-for="FechaContratacion" type="date" />
+                            </div>
+                            <span asp-validation-for="FechaContratacion" class="field-validation-error"></span>
+                        </div>
+                    </div>
+                </details>
+
+                <button type="submit" class="ceplan-btn ceplan-btn--primary">Crear cuenta</button>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const hidden = document.getElementById('TipoDocumento');
+            if (hidden) {
+                const botones = document.querySelectorAll('.ceplan-toggle__btn');
+                function marcar(tipo) {
+                    hidden.value = tipo;
+                    botones.forEach(b => b.classList.toggle('active', b.dataset.tipo === tipo));
+                }
+                botones.forEach(b => b.addEventListener('click', () => marcar(b.dataset.tipo)));
+                marcar(hidden.value || 'DNI');
+            }
+
+            // Mostrar / ocultar contraseña (para cada campo con data-target).
+            document.querySelectorAll('.ceplan-toggle-pass').forEach(toggle => {
+                const campo = document.getElementById(toggle.dataset.target);
+                if (!campo) return;
+                toggle.addEventListener('click', () => {
+                    const ver = campo.type === 'password';
+                    campo.type = ver ? 'text' : 'password';
+                    toggle.querySelector('i').className = ver ? 'bi bi-eye-slash' : 'bi bi-eye';
+                });
+            });
+        })();
+    </script>
+}

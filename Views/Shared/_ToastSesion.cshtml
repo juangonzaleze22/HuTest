@@ -1,0 +1,15 @@
+@* Toast de sesión expirada por inactividad (HU-6, CA-HU-6.2). Se muestra al volver al login tras expirar. *@
+@if (TempData["SesionExpirada"] is true)
+{
+    <div class="ceplan-toast" role="status">
+        <i class="bi bi-info-circle-fill"></i>
+        <div>
+            <div class="ceplan-toast__title">
+                Su sesión ha expirado debido a inactividad. Por favor, inicie sesión nuevamente.
+            </div>
+        </div>
+        <button type="button" class="ceplan-toast__close" onclick="this.closest('.ceplan-toast').remove()" aria-label="Cerrar">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+}

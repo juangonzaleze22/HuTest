@@ -1,0 +1,57 @@
+@using System.Security.Claims
+@{
+    var autenticado = User.Identity?.IsAuthenticated ?? false;
+    var nombre = User.Identity?.Name ?? "";
+    var rol = User.FindFirstValue(ClaimTypes.Role) ?? "Operador";
+
+    string Iniciales(string n)
+    {
+        if (string.IsNullOrWhiteSpace(n)) return "U";
+        var limpio = n.Replace(",", " ");
+        var partes = limpio.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (partes.Length == 0) return "U";
+        var ini = partes[0][..1];
+        if (partes.Length > 1) ini += partes[^1][..1];
+        return ini.ToUpperInvariant();
+    }
+}
+<header class="ceplan-header">
+    <div class="ceplan-header__brand">
+        @if (autenticado)
+        {
+            <button type="button" class="ceplan-header__icon-btn ceplan-header__menu" data-sidebar-open
+                    title="Menú" aria-label="Abrir menú">
+                <i class="bi bi-list"></i>
+            </button>
+        }
+        <a href="@Url.Action("Index", "Home")" aria-label="Inicio CEPLAN">
+            <img src="~/img/logo-ceplan-blanco.png" alt="CEPLAN" class="ceplan-header__logo" />
+        </a>
+    </div>
+
+    <div class="ceplan-header__actions">
+        <button type="button" class="ceplan-header__icon-btn" title="Ayuda" aria-label="Ayuda">
+            <i class="bi bi-question-circle"></i>
+        </button>
+
+        @if (autenticado)
+        {
+            <button type="button" class="ceplan-header__icon-btn" title="Notificaciones" aria-label="Notificaciones">
+                <i class="bi bi-bell"></i>
+            </button>
+
+            <div class="ceplan-header__profile">
+                <span class="ceplan-header__avatar">@Iniciales(nombre)</span>
+                <span class="d-none d-md-inline-flex flex-column">
+                    <span class="ceplan-header__profile-name">@nombre</span>
+                    <span class="ceplan-header__profile-role">@rol</span>
+                </span>
+                <form method="post" asp-controller="Account" asp-action="Logout" class="ms-2">
+                    <button type="submit" class="ceplan-header__icon-btn" title="Cerrar sesión" aria-label="Cerrar sesión">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+</header>

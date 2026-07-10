@@ -1,0 +1,21 @@
+@model HuTest.Models.ViewModels.BloqueadaViewModel
+@{
+    ViewData["Title"] = "Cuenta bloqueada";
+    Layout = "_AuthLayout";
+}
+
+<div class="ceplan-auth-stack ceplan-auth-stack--estado">
+    <div class="ceplan-card">
+        <div class="ceplan-welcome">
+            <span class="ceplan-illustration-badge">
+                <img src="~/img/ceplan-illustration-suport.png" alt="" width="72" height="72" />
+            </span>
+            <h1>Cuenta bloqueada temporalmente</h1>
+            <p>
+                Has excedido el número máximo de intentos fallidos (@Model.Umbral).
+                Por seguridad, tu cuenta ha sido bloqueada durante @Model.DuracionMinutos minutos.
+                Intenta nuevamente más tarde.
+            </p>
+        </div>
+    </div>
+</div>

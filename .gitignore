@@ -1,0 +1,71 @@
+# ==========================================================
+#  Secretos locales — NUNCA subir
+# ==========================================================
+.env
+.env.*
+!.env.example
+.mcp.json
+appsettings.*.Local.json
+secrets.json
+
+# ==========================================================
+#  Build / salida de compilación .NET
+# ==========================================================
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+publish/
+[Pp]ublish[Pp]rofiles/
+*.dll
+*.exe
+*.pdb
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ==========================================================
+#  Paquetes NuGet
+# ==========================================================
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+# ==========================================================
+#  IDE / usuario
+# ==========================================================
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/*
+!.vscode/extensions.json
+*.rsuser
+
+# ==========================================================
+#  Logs y temporales
+# ==========================================================
+*.log
+logs/
+*.tmp
+*.cache
+_ReSharper*/
+
+# ==========================================================
+#  SO
+# ==========================================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# ==========================================================
+#  Node (front-end / herramientas)
+# ==========================================================
+node_modules/
+npm-debug.log*
